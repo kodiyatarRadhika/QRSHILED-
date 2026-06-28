@@ -1,233 +1,384 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cyber URL Sanitizer</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<title>CyberShield Toolkit</title>
 
 <style>
+
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
-font-family:Arial,Helvetica,sans-serif;
+font-family:Arial,sans-serif;
 }
 
 body{
+
 background:#0d1117;
 color:white;
-display:flex;
-justify-content:center;
-align-items:center;
-min-height:100vh;
-padding:20px;
+padding:30px;
+
 }
 
 .container{
-width:100%;
-max-width:900px;
+
+max-width:950px;
+margin:auto;
 background:#161b22;
 padding:30px;
 border-radius:15px;
-box-shadow:0 0 30px rgba(0,255,150,.2);
+box-shadow:0 0 30px rgba(0,255,120,.15);
+
 }
 
 h1{
+
 text-align:center;
-margin-bottom:10px;
 color:#00ff99;
+
 }
 
 .subtitle{
+
 text-align:center;
-margin-bottom:25px;
 color:#9ca3af;
+margin:10px 0 30px;
+
 }
 
-textarea{
+.tabs{
+
+display:flex;
+justify-content:center;
+gap:15px;
+margin-bottom:30px;
+
+}
+
+.tabs button{
+
+padding:12px 25px;
+border:none;
+border-radius:8px;
+font-size:15px;
+font-weight:bold;
+cursor:pointer;
+transition:.3s;
+
+}
+
+.activeTab{
+
+background:#00ff99;
+color:black;
+
+}
+
+.normalTab{
+
+background:#222;
+color:white;
+
+}
+
+.tabs button:hover{
+
+transform:scale(1.05);
+
+}
+
+.section{
+
+display:none;
+
+}
+
+.section.active{
+
+display:block;
+
+}
+
+textarea,input{
+
 width:100%;
-height:120px;
 padding:15px;
 background:#0d1117;
+color:white;
 border:1px solid #00ff99;
 border-radius:8px;
-color:white;
-resize:none;
 font-size:15px;
+margin-bottom:15px;
+
 }
 
-button{
-margin-top:15px;
+button.scan{
+
+background:#00ff99;
+color:black;
+
+}
+
+button.copy{
+
+background:#2563eb;
+color:white;
+
+}
+
+button.clear{
+
+background:#ef4444;
+color:white;
+
+}
+
+.actionButtons button{
+
 padding:12px 20px;
 border:none;
 border-radius:8px;
 cursor:pointer;
-font-size:16px;
+margin-right:10px;
 font-weight:bold;
-transition:.3s;
-}
+margin-bottom:20px;
 
-.scan{
-background:#00ff99;
-color:black;
-}
-
-.scan:hover{
-transform:scale(1.05);
-}
-
-.copy{
-background:#2563eb;
-color:white;
-margin-left:10px;
 }
 
 .output{
-margin-top:25px;
-padding:15px;
+
 background:#0d1117;
+padding:15px;
 border-radius:10px;
+margin-top:15px;
+
 }
 
 .output h3{
+
 color:#00ff99;
 margin-bottom:10px;
-}
 
-.result{
-margin:8px 0;
-word-break:break-word;
-}
-
-.low{
-color:#22c55e;
-font-weight:bold;
-}
-
-.medium{
-color:#facc15;
-font-weight:bold;
-}
-
-.high{
-color:#ef4444;
-font-weight:bold;
 }
 
 .footer{
+
 text-align:center;
-margin-top:20px;
-font-size:13px;
-color:gray;
+margin-top:30px;
+color:#9ca3af;
+
 }
+
+.low{
+
+color:#22c55e;
+
+}
+
+.medium{
+
+color:#facc15;
+
+}
+
+.high{
+
+color:#ef4444;
+
+}
+
 </style>
+
 </head>
 
 <body>
 
 <div class="container">
 
-<h1>Cyber URL Sanitizer</h1>
+<h1>CyberShield Toolkit</h1>
 
 <p class="subtitle">
-Analyze and sanitize URLs for common security risks.
+Professional Cyber Security Toolkit
 </p>
+
+<div class="tabs">
+
+<button id="urlTab"
+class="activeTab"
+onclick="showURL()">
+
+🛡 URL Scanner
+
+</button>
+
+<button id="emailTab"
+class="normalTab"
+onclick="showEmail()">
+
+📧 Email Checker
+
+</button>
+
+</div>
+
+<!-- URL SECTION -->
+
+<div id="urlSection"
+class="section active">
 
 <textarea
 id="urlInput"
-placeholder="Paste a URL here..."></textarea>
+placeholder="Paste URL here..."></textarea>
 
-<br>
+<div class="actionButtons">
 
-<button class="scan" onclick="scanURL()">
-Analyze URL
+<button
+class="scan"
+onclick="scanURL()">
+
+Analyze
+
 </button>
 
-<button class="copy" onclick="copyURL()">
-Copy Sanitized URL
+<button
+class="copy"
+onclick="copyURL()">
+
+Copy
+
 </button>
+
+</div>
 
 <div class="output">
 
-<h3>Results</h3>
+<h3>Result</h3>
 
-<div class="result">
-<b>Risk Level:</b>
+<p>
+
+<b>Risk:</b>
+
 <span id="risk">-</span>
+
+</p>
+
+<p>
+
+<b>Issues:</b>
+
+</p>
+
+<div id="issues">
+
+None
+
 </div>
 
-<div class="result">
-<b>Detected Issues:</b>
-<div id="issues">None</div>
-</div>
+<p>
 
-<div class="result">
 <b>Sanitized URL:</b>
-<div id="clean">-</div>
+
+</p>
+
+<div id="clean">
+
+-
+
+</div>
+
+</div>
+
+</div>
+
+<!-- EMAIL SECTION -->
+
+<div id="emailSection"
+class="section">
+
+<input
+
+type="text"
+
+id="emailInput"
+
+placeholder="Enter Email Address">
+
+<div class="actionButtons">
+
+<button
+class="scan"
+onclick="checkEmail()">
+
+Check Email
+
+</button>
+
+<button
+class="clear"
+onclick="clearEmail()">
+
+Clear
+
+</button>
+
+</div>
+
+<div class="output">
+
+<h3>Email Result</h3>
+
+<div id="emailInfo">
+
+Waiting...
+
+</div>
+
+<br>
+
+<div id="emailResult">
+
+Waiting...
+
+</div>
+
 </div>
 
 </div>
 
 <div class="footer">
-© 2026 CyberShield URL Security Scanner • Detect • Analyze • Protect
-</div>
-<hr style="margin:40px 0;border:1px solid #1e293b;">
 
-<div class="card">
+© 2026 CyberShield Toolkit • Detect • Analyze • Protect
 
-<h2 style="color:#00ff88;margin-bottom:15px;">
-📧 Email Security Checker
-</h2>
+  </div>
+  <script>
 
-<input
-type="text"
-id="emailInput"
-placeholder="Enter an email address..."
-style="
-width:100%;
-padding:15px;
-background:#0f172a;
-color:white;
-border:2px solid #1e293b;
-border-radius:12px;
-font-size:16px;
-outline:none;
-">
+// ---------- TAB SWITCHING ----------
 
-<div class="buttons">
+function showURL(){
 
-<button class="scanBtn" onclick="checkEmail()">
-Check Email
-</button>
+document.getElementById("urlSection").classList.add("active");
+document.getElementById("emailSection").classList.remove("active");
 
-<button class="clearBtn" onclick="clearEmail()">
-Clear
-</button>
+document.getElementById("urlTab").className="activeTab";
+document.getElementById("emailTab").className="normalTab";
 
-</div>
+}
 
-<div class="grid">
+function showEmail(){
 
-<div class="infoBox">
-<h3>Email Information</h3>
-<div id="emailInfo">
-Waiting...
-</div>
-</div>
+document.getElementById("emailSection").classList.add("active");
+document.getElementById("urlSection").classList.remove("active");
 
-<div class="infoBox">
-<h3>Security Result</h3>
-<div id="emailResult">
-Waiting...
-</div>
-</div>
+document.getElementById("emailTab").className="activeTab";
+document.getElementById("urlTab").className="normalTab";
 
-</div>
+}
 
-</div>
-</div>
-
-<script>
+// ---------- URL SCANNER ----------
 
 let sanitizedURL="";
 
@@ -249,127 +400,101 @@ sanitizedURL=input;
 
 if(input===""){
 
-risk.innerHTML="No URL";
-
-issues.innerHTML="Enter a URL.";
-
+risk.innerHTML="-";
+issues.innerHTML="Please enter a URL.";
 clean.innerHTML="-";
-
 return;
 
 }
 
 if(input.toLowerCase().startsWith("javascript:")){
 
-findings.push("Dangerous javascript: protocol detected");
-
+findings.push("❌ javascript: protocol detected");
 sanitizedURL="about:blank";
-
 score+=5;
 
 }
 
 if(input.toLowerCase().startsWith("data:")){
 
-findings.push("Dangerous data: protocol detected");
-
+findings.push("❌ data: protocol detected");
 sanitizedURL="about:blank";
-
 score+=5;
 
 }
 
 if(input.includes("<")){
 
-findings.push("Contains < character");
-
+findings.push("⚠ Contains < character");
 sanitizedURL=sanitizedURL.replace(/</g,"");
-
 score++;
 
 }
 
 if(input.includes(">")){
 
-findings.push("Contains > character");
-
+findings.push("⚠ Contains > character");
 sanitizedURL=sanitizedURL.replace(/>/g,"");
-
 score++;
 
 }
 
 if(input.includes('"')){
 
-findings.push("Contains double quotes");
-
+findings.push("⚠ Contains double quotes");
 sanitizedURL=sanitizedURL.replace(/"/g,"");
-
 score++;
 
 }
 
 if(input.includes("'")){
 
-findings.push("Contains single quotes");
-
+findings.push("⚠ Contains single quotes");
 sanitizedURL=sanitizedURL.replace(/'/g,"");
-
 score++;
 
 }
 
 if(input.includes(" ")){
 
-findings.push("Contains spaces");
-
+findings.push("⚠ Contains spaces");
 sanitizedURL=sanitizedURL.replace(/\s+/g,"");
-
-score++;
-
-}
-
-if(input.length>200){
-
-findings.push("Very long URL");
-
 score++;
 
 }
 
 try{
 
-let u=new URL(sanitizedURL);
+let url=new URL(sanitizedURL);
 
-if(u.protocol!=="http:" && u.protocol!=="https:"){
+if(url.protocol==="https:"){
 
-findings.push("Non HTTP/HTTPS protocol");
+findings.push("✅ HTTPS Secure");
 
-score+=2;
+}else{
+
+findings.push("⚠ HTTP Connection");
+score++;
 
 }
 
 }catch{
 
-findings.push("Invalid URL format");
-
+findings.push("❌ Invalid URL");
 score+=3;
 
 }
 
-clean.textContent=sanitizedURL;
+clean.innerHTML=sanitizedURL;
 
-if(findings.length===0){
+if(findings.length==0){
 
-issues.innerHTML="No security issues detected.";
-
+issues.innerHTML="No threats detected.";
 risk.innerHTML="<span class='low'>LOW</span>";
 
-return;
+}else{
 
-}
-
-issues.innerHTML="<ul>"+findings.map(x=>"<li>"+x+"</li>").join("")+"</ul>";
+issues.innerHTML="<ul><li>"+findings.join("</li><li>")+"</li></ul>";
 
 if(score>=5){
 
@@ -387,9 +512,11 @@ risk.innerHTML="<span class='low'>LOW</span>";
 
 }
 
+}
+
 function copyURL(){
 
-if(!sanitizedURL){
+if(sanitizedURL===""){
 
 alert("Nothing to copy.");
 
@@ -399,10 +526,12 @@ return;
 
 navigator.clipboard.writeText(sanitizedURL);
 
-alert("Sanitized URL copied.");
+alert("Copied successfully.");
 
 }
-  function checkEmail(){
+    // ---------- EMAIL SECURITY CHECKER ----------
+
+function checkEmail(){
 
 const email=document.getElementById("emailInput").value.trim();
 
@@ -414,10 +543,8 @@ const regex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 if(email===""){
 
-info.innerHTML="Please enter an email.";
-
+info.innerHTML="❌ Please enter an email address.";
 result.innerHTML="";
-
 return;
 
 }
@@ -425,116 +552,91 @@ return;
 if(!regex.test(email)){
 
 info.innerHTML="❌ Invalid Email Format";
-
-result.innerHTML="<span style='color:#ef4444'>High Risk</span>";
-
+result.innerHTML="<span class='high'>HIGH RISK</span>";
 return;
 
 }
 
-const parts=email.split("@");
+const username=email.split("@")[0];
 
-const username=parts[0];
-
-const domain=parts[1];
+const domain=email.split("@")[1];
 
 const disposable=[
-
 "mailinator.com",
-
 "10minutemail.com",
-
-"tempmail.com",
-
 "guerrillamail.com",
-
+"tempmail.com",
 "yopmail.com"
-
 ];
 
 const trusted=[
-
 "gmail.com",
-
 "outlook.com",
-
+"hotmail.com",
 "yahoo.com",
-
 "icloud.com",
-
 "proton.me",
-
 "protonmail.com"
-
 ];
 
 let score=100;
-
 let messages=[];
 
 if(disposable.includes(domain)){
-
-messages.push("⚠ Disposable email detected");
-
+messages.push("⚠ Disposable Email Provider");
 score-=50;
-
 }
 
 if(username.length<3){
-
-messages.push("⚠ Username too short");
-
+messages.push("⚠ Username is very short");
 score-=10;
-
 }
 
 if(/[0-9]{5,}/.test(username)){
-
 messages.push("⚠ Too many numbers");
-
 score-=10;
-
 }
 
-if(username.includes("admin")){
-
-messages.push("⚠ Contains admin");
-
+if(username.toLowerCase().includes("admin")){
+messages.push("⚠ Contains 'admin'");
 score-=10;
-
 }
 
-if(username.includes("verify")){
-
-messages.push("⚠ Contains verify");
-
+if(username.toLowerCase().includes("verify")){
+messages.push("⚠ Contains 'verify'");
 score-=10;
+}
 
+if(username.toLowerCase().includes("support")){
+messages.push("⚠ Contains 'support'");
+score-=10;
 }
 
 if(trusted.includes(domain)){
-
-messages.push("✅ Trusted Provider");
-
+messages.push("✅ Trusted Email Provider");
 }
 
-let risk="🟢 SAFE";
+let level="🟢 SAFE";
+let css="low";
 
-if(score<80) risk="🟡 MEDIUM";
+if(score<80){
+level="🟡 MEDIUM";
+css="medium";
+}
 
-if(score<50) risk="🔴 HIGH";
+if(score<50){
+level="🔴 HIGH";
+css="high";
+}
 
 info.innerHTML=
-
 "<b>Username:</b> "+username+
-
 "<br><b>Domain:</b> "+domain+
-
-"<br><b>Score:</b> "+score+"/100";
+"<br><b>Security Score:</b> "+score+"/100";
 
 result.innerHTML=
-
-messages.join("<br>")+"<br><br><b>"+risk+"</b>";
+messages.join("<br>")+
+"<br><br><span class='"+css+"'><b>"+level+"</b></span>";
 
 }
 
@@ -546,7 +648,11 @@ document.getElementById("emailInfo").innerHTML="Waiting...";
 
 document.getElementById("emailResult").innerHTML="Waiting...";
 
-  }
+}
+
+// Show URL tab by default
+
+showURL();
 
 </script>
 
