@@ -171,7 +171,60 @@ Copy Sanitized URL
 <div class="footer">
 © 2026 CyberShield URL Security Scanner • Detect • Analyze • Protect
 </div>
+<hr style="margin:40px 0;border:1px solid #1e293b;">
 
+<div class="card">
+
+<h2 style="color:#00ff88;margin-bottom:15px;">
+📧 Email Security Checker
+</h2>
+
+<input
+type="text"
+id="emailInput"
+placeholder="Enter an email address..."
+style="
+width:100%;
+padding:15px;
+background:#0f172a;
+color:white;
+border:2px solid #1e293b;
+border-radius:12px;
+font-size:16px;
+outline:none;
+">
+
+<div class="buttons">
+
+<button class="scanBtn" onclick="checkEmail()">
+Check Email
+</button>
+
+<button class="clearBtn" onclick="clearEmail()">
+Clear
+</button>
+
+</div>
+
+<div class="grid">
+
+<div class="infoBox">
+<h3>Email Information</h3>
+<div id="emailInfo">
+Waiting...
+</div>
+</div>
+
+<div class="infoBox">
+<h3>Security Result</h3>
+<div id="emailResult">
+Waiting...
+</div>
+</div>
+
+</div>
+
+</div>
 </div>
 
 <script>
@@ -349,6 +402,151 @@ navigator.clipboard.writeText(sanitizedURL);
 alert("Sanitized URL copied.");
 
 }
+  function checkEmail(){
+
+const email=document.getElementById("emailInput").value.trim();
+
+const info=document.getElementById("emailInfo");
+
+const result=document.getElementById("emailResult");
+
+const regex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if(email===""){
+
+info.innerHTML="Please enter an email.";
+
+result.innerHTML="";
+
+return;
+
+}
+
+if(!regex.test(email)){
+
+info.innerHTML="❌ Invalid Email Format";
+
+result.innerHTML="<span style='color:#ef4444'>High Risk</span>";
+
+return;
+
+}
+
+const parts=email.split("@");
+
+const username=parts[0];
+
+const domain=parts[1];
+
+const disposable=[
+
+"mailinator.com",
+
+"10minutemail.com",
+
+"tempmail.com",
+
+"guerrillamail.com",
+
+"yopmail.com"
+
+];
+
+const trusted=[
+
+"gmail.com",
+
+"outlook.com",
+
+"yahoo.com",
+
+"icloud.com",
+
+"proton.me",
+
+"protonmail.com"
+
+];
+
+let score=100;
+
+let messages=[];
+
+if(disposable.includes(domain)){
+
+messages.push("⚠ Disposable email detected");
+
+score-=50;
+
+}
+
+if(username.length<3){
+
+messages.push("⚠ Username too short");
+
+score-=10;
+
+}
+
+if(/[0-9]{5,}/.test(username)){
+
+messages.push("⚠ Too many numbers");
+
+score-=10;
+
+}
+
+if(username.includes("admin")){
+
+messages.push("⚠ Contains admin");
+
+score-=10;
+
+}
+
+if(username.includes("verify")){
+
+messages.push("⚠ Contains verify");
+
+score-=10;
+
+}
+
+if(trusted.includes(domain)){
+
+messages.push("✅ Trusted Provider");
+
+}
+
+let risk="🟢 SAFE";
+
+if(score<80) risk="🟡 MEDIUM";
+
+if(score<50) risk="🔴 HIGH";
+
+info.innerHTML=
+
+"<b>Username:</b> "+username+
+
+"<br><b>Domain:</b> "+domain+
+
+"<br><b>Score:</b> "+score+"/100";
+
+result.innerHTML=
+
+messages.join("<br>")+"<br><br><b>"+risk+"</b>";
+
+}
+
+function clearEmail(){
+
+document.getElementById("emailInput").value="";
+
+document.getElementById("emailInfo").innerHTML="Waiting...";
+
+document.getElementById("emailResult").innerHTML="Waiting...";
+
+  }
 
 </script>
 
